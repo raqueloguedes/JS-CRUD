@@ -1,31 +1,31 @@
+//cliente-service aula 04
+
 const listaClientes = () => {
-    return fetch(`http://localhost:3000/profile`) 
-    //promisse
-    .then(resposta => {
-        return resposta.json()
-    })
+    return fetch(`http://localhost:3000/profile`)
+        .then(resposta => {
+
+            return resposta.json()
+
+        })
 }
 
-const criaCliente = (nome, email) => { 
+const criaCliente = (nome, email) => {
     return fetch(`http://localhost:3000/profile`, {
-    //postagem    
-    method: 'POST', 
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        // JSON.stringify transforma em string
         body: JSON.stringify({
             nome: nome,
             email: email
         })
     })
-    .then(resposta => {
-        return resposta.body
-    })
+        .then(resposta => {
+            return resposta.body
+        })
 }
 
-const removeCliente = (id) => { 
-    //id é o que identifica
+const removeCliente = (id) => {
     return fetch(`http://localhost:3000/profile/${id}`, {
         method: 'DELETE'
     })
@@ -40,7 +40,7 @@ const detalhaCliente = (id) => {
 
 const atualizaCliente = (id, nome, email) => {
     return fetch(`http://localhost:3000/profile/${id}`, {
-        method: 'PUT', //colocar
+        method: 'PUT',
         headers: {
             'Content-type': 'application/json'
         },
@@ -54,8 +54,7 @@ const atualizaCliente = (id, nome, email) => {
         })
 }
 
-
-export const clienteService = { 
+export const clienteService = {
     listaClientes,
     criaCliente,
     removeCliente,
