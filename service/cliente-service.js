@@ -1,8 +1,11 @@
-const listaClientes = () => {
+const listaClientes = () =>  {
     return fetch(`http://localhost:3000/profile`) 
     //promisse
     .then(resposta => {
-        return resposta.json()
+        if(resposta.ok){
+            return resposta.json()
+        }
+        throw new Error('Não foi possível listar os clientes')
     })
 }
 
@@ -11,7 +14,7 @@ const criaCliente = (nome, email) => {
     //postagem    
     method: 'POST', 
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type' : 'application/json'
         },
         // JSON.stringify transforma em string
         body: JSON.stringify({
@@ -19,8 +22,11 @@ const criaCliente = (nome, email) => {
             email: email
         })
     })
-    .then(resposta => {
-        return resposta.body
+    .then( resposta => {
+        if(resposta.ok){
+            return resposta.body
+        }
+        throw new Error('Não foi possível criar um cliente')
     })
 }
 
@@ -29,12 +35,21 @@ const removeCliente = (id) => {
     return fetch(`http://localhost:3000/profile/${id}`, {
         method: 'DELETE'
     })
+    .then( resposta => { 
+        if(!resposta.ok){
+        throw new Error('Não foi possível deletar um cliente')
+        }
+    })
 }
 
 const detalhaCliente = (id) => {
     return fetch(`http://localhost:3000/profile/${id}`)
         .then(resposta => {
-            return resposta.json()
+            if(resposta.ok){
+                return resposta.json()
+            }
+    
+            throw new Error('Não foi possível detalhar um cliente')    
         })
 }
 
@@ -42,18 +57,20 @@ const atualizaCliente = (id, nome, email) => {
     return fetch(`http://localhost:3000/profile/${id}`, {
         method: 'PUT', //colocar
         headers: {
-            'Content-type': 'application/json'
+            'Content-type' : 'application/json'
         },
         body: JSON.stringify({
             nome: nome,
             email: email
         })
     })
-        .then(resposta => {
-            return resposta.json()
+        .then( resposta => {
+            if(resposta.ok){
+                return resposta.json()
+            }
+            throw new Error('Não foi possível detalhar um cliente')
         })
 }
-
 
 export const clienteService = { 
     listaClientes,
@@ -61,4 +78,5 @@ export const clienteService = {
     removeCliente,
     detalhaCliente,
     atualizaCliente
+    
 }
